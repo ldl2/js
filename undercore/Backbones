@@ -1,0 +1,145 @@
+I. Backbones
+	A. Front end library
+	B. used as a framework
+		1. gives structure and control
+	C.example of ajax request--> click on li (with class user) and create ajax post request and rely upon finishing the url with some added infromation from the DOM -->$(this).attr('data-user-id')
+
+$('div.users').on('click', 'li.user', function(){
+ $.post(
+  '/users/'+$(this).attr('data-user-id'),
+  function(user){
+   //...do something in the view with this "user" that came back
+   $('#user-'+user.id).html(user.username); 
+  },
+  'json');
+ return false;
+});
+
+	D. really use backbone to fix this crap
+		1. reduce total flow with  cleaner and dynamic solutions to get data from front-end UI to back-end and vise-versa
+		2. relationship between model and viw to have listener for changes
+		3. provides models collections views MCV-
+			a. Models- detach business logic from our UI. designed to represent attributes and provude useful functions to manipuate these attributes
+			b. Collection- collection of related models
+				collection of users-> act single listener for all its models.
+			c. Views- handles data to make chanes to model and model syncs to database.
+	E. Backbone Models-
+		1. help rep data on front end
+			a. provides the functionality to handle any changes to our data
+			b. example book model to add features
+var BookModel = Backbone.Model.extend({
+  defaults: {
+    title: null,
+    author: null
+  },
+  initialize: function(){
+    console.log("I'm alive!");
+  }
+});
+
+				A) this provides initialize function so new books  say I"m alive
+					1) inherit title and author
+						a) change info -set()
+myBook.set("title", "Where The Wild Things Are");
+						b) get() method
+myBook.get("title");
+					2) make with 
+var myBook = new BookModel();
+					3) console.log(myBook);--> shows changes
+		2. Securing and validating data
+			a. front end code is trusted by backend- malicious attacks in css or xss
+			b. same code cleansed
+var BookModel = Backbone.Model.extend({
+  defaults: {
+    title: null,
+    author: null
+  }
+});
+var malware = new BookModel({title: "<script>alert('gotcha!')</script>"});
+			c. this code is trying to inject code into title.
+				A) we can use the .escape() on our models to secape attributes.
+				B) similar ot .get() but returns excape string----kills injected scripts
+			d. backbone gives checs
+				1)verify has a title and author---not null
+					a) ran when we try to save to the database.
+var myBook = new BookModel({title: "Charlotte's Web"});
+
+
+var BookModel = Backbone.Model.extend({
+  defaults: {
+    title: null,
+    author: null
+  },
+  validate: function(attrs, options){
+    if (!attrs.author){
+      return "Book must have an author"
+;    }
+  }
+});
+var myBook = new BookModel({title: "Charlotte's Web"});
+myBook.save();
+
+		e. this is attribute
+	F. Backbone Collections
+		1. Collections allow us to keep tabs on multiple models at one time.
+			a. useful for keeping track in a list
+
+{
+  "count": 811,
+  "next": "http://pokeapi.co/api/v2/pokemon/?limit=20&offset=20",
+  "previous": null,
+  "results": [
+    {
+      "name": "bulbasaur",
+      "url": "http://pokeapi.co/api/v2/pokemon/1/"
+    },
+    {
+      "name": "ivysaur",
+      "url": "http://pokeapi.co/api/v2/pokemon/2/"
+    },
+    {
+      "name": "venusaur",
+      "url": "http://pokeapi.co/api/v2/pokemon/3/"
+    },
+    ...
+  ]
+}
+ 		b. json contains an array of pokemon objects in the results key.
+ 		c. collections nees arrays so this api is to create a pokemon collection and try to model some pokemon in doing so.
+ 		d. like a model we are going to need to extend the Collection class we'll introduce a few concepts allong the way
+
+var PokemonCollection = Backbone.Collection.extend({
+  model: PokemonModel,
+  url: "http://pokeapi.co/api/v2/pokemon"
+});
+ 
+ 		e. extendign the backbone collection is to set up a model and url properly. the url property is directly tied to where a collection lives.
+ 		f. in this case http://pokeapi.co/api/v2/pokemon.
+ 		g.your own restful api a url may look like this url: '/users'
+ 		h. the model property dictates which model class the collection will represt or contain.
+ 		i. we've yet to build modemonmodel but based on the incoming JSON from our GET request earlier we know of the pokemon has a name and url
+
+var PokemonModel = Backbone.Model.extend({
+  defaults: {
+    name: null,
+    url: null
+  }
+});
+ 
+		j. our model set up in a similar fashion to how we set up our stack medel in the previous tab.
+			A) defaults contain a name and url.
+			) this url is different from the url our collection are concerned with
+	2.Common collection Properties and Methods
+		a. IN order to get model information we provide a RESTful URL in our collection to point to an API were our models live
+		b. In this case the first 20 pokemon live at http://pokeapi.co/api/v2/pokemon but we ned to enact calling this URL.
+		c. fetch() method sends a GET request to the URL we provuded in the collection
+
+var pokemonList = new PokemonCollection();
+pokemonList.fetch();
+
+		d. when logged to console pokemonlist ocntains a models array
+			A) every backbone collection hold onto models via its models array
+			B) need 20 models here to model the first 20 pokemon---collections need arrays
+		e. need to build out pokmonecollection a bit more becuase we need it to be tied to the array pokemon found in the results array of the returned json object from the PokeAPI
+		f.parse is native but we can rewrite it.
+		

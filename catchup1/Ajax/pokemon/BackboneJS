@@ -1,0 +1,40 @@
+I. BackboneJS
+	A. Considered Front-end framework
+		1. really a library with classes
+			a. customizable for how we want to structure
+	B. doesn't tie data to DOM.
+		1. emphasis on jquery selectors and callback functions
+			a. views are then synced with backend
+!!!!C. useful for data-rich applications
+	D. Backbone v other front-ends
+		1. excellent data querying capabilities
+		2. avoids 2 way data binding-we determine basic crud
+		3. hands off-no one way
+		4. works with other libraries-jquery
+		5. customizable to even chnge class prototype
+		6. one dependency-Underscore
+		7. no restrictions on UI-use react mustache marionette HAML or jquery UI
+	E.Warm up with underscore library since backbone
+		1. after that we do different classes Models Collections and Views.
+			a. incorporate event-handling and listeners and finally routers.
+			b. get started with backbone
+	F. UnderscoreJS
+		1. Backbone deals with models and collections (and views).
+		2. backbone uses underscore for iteration, manipulation, and querying.
+		3. needs to be included in html files -like jquery/angular
+var ironman = {
+ name: "Tony Stark",
+ alias: "Iron Man"
+};
+var avengers_array = [
+ {name: "Tony Stark", alias: "Iron Man", ability: "flight"},
+ {name: "Bruce Banner", alias: "The Incredible Hulk", ability: "superhuman strength"},
+ {name: "Steve Rogers", alias: "Captain America", ability: "superhuman strength"},
+ {name: "Clint Barton", alias: "Hawkeye", ability: "superior hand-eye coordination"},
+ {name: "Thor Odinson", alias: "Thor", ability: "teleportation"},
+ {name: "Natasha Romanova", alias: "Black Widow", ability: "espionage"}
+];
+
+		4. functions
+			A) .each() .map() .pluck() .where() .findWhere() .filter .sortBy()
+			B) _.each()

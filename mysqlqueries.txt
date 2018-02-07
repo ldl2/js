@@ -1,0 +1,87 @@
+I. SQL
+	A. relational database structure
+		1. schema in previous chapter
+		2. relationships and how to use SQL to get it and adjust it
+		3. SQL programming language designed for managing data 
+			a. structured query langauge
+			b. actions:
+				A)INSERT
+				B)UPDATE
+				C)DELETE
+				D)JOIN
+				E)SELECT
+					1)SELECT _____ where(conditional)
+			c. key to workign with databases
+	B.  Using LAMP to interact with database
+		1. sets up 2 servers web server (apache)
+		2. database server (mysql)
+			A) ea on own port
+			B) find port db listens to
+			C) workbench needs ot cnnnect to that port
+				1) can send commands this way
+			D) getting started open mamp specify which port and start server
+	C. importing data
+		1. can copy and paste from .sql file
+			a. lines of code makes database called  an tables
+			b. lightning bolt executes
+		2. from erd to mysql
+			a. model page -->database-->forward engineer (set port)
+	D. SELECT basics
+		1.use selects database
+		2. select from
+			a. all caps
+		3. as
+			a. aliases column title
+		4. from = sheet to take from
+		5. select = look for column name
+		6. where = lets you set a row by a variable variable = ""
+			a. must be end with :
+			b. can use OR (not sure if just here)
+		7. ORDER BY = can sort (ASC ascending) (desc descendign)
+	E. INSERT
+		1. select * from tweets
+			a. can edit manually
+		2. INSERT INTO tweet (page don't need to specify database as we are in it) (keys)
+			a. need VALUES()
+				A) can use now() fucntion
+		3. Update 
+	F.Update
+		1. select first
+		2. click and change then update
+		3. UPDATE from users set first_name = name where id =1:
+	G. Delete
+		1. might need SET SQL_SAFE_UPDATES = 0
+		2. select * from tweets
+			a. right click delete rows tells command
+		3. DELETE from tweets where ID=14:
+			a. select * from tweets gone!
+			b. NEED WHERE in this command or lose all records
+	H. the abilit to run functions
+		1. text functions
+			a. concat() -select concat(first_name, last_name, "String") FROM clients
+				A) select creates name so use as to make it not look so bad
+			b.	length()- select length(last_name) ascending last_len from client
+			c. lower() - lower(first_name) as first_lowercase
+		2. date function -on datetime column
+			a.join(), get part of time hour dayname month now
+			b. now() this time
+			w3 schools has nice formating can put into q
+		3. select date_format (joined_datetime, %asadasxa)
+	I. Joining tables---neeed a relationships
+		1. only works with relationship find this value from id need tabel then id
+	J. LEFT JOIN
+SELECT first_name, tweet
+FROM users
+LEFT JOIN faves
+ON users.id = faves.user_id
+LEFT JOIN tweets
+ON faves.tweet_id = tweets.id
+WHERE users.id = 2;
+
+basically can join the table for specific thigns
+	K. Exporting the database
+		1. server tabel export tells where to put it
+			include create schema includes creates database.  then the databse
+	L. others
+		1. between the rows between two vaulues are given includsive
+			a. use cast with databases
